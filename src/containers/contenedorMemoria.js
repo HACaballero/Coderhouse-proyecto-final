@@ -9,43 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class Producto {
-    constructor(nameFile) {
-        this.nameFile = nameFile;
-        this.productos = [
-            {
-                nombre: "Escuadra",
-                precio: 123,
-                descripcion: "Soy una escuadra",
-                stock: 1,
-                id: 1,
-                timestamp: 20200120,
-                codigo: "Es-cod",
-                foto: "https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/3_avatar-512.png",
-            },
-        ];
+class ContenedorMemoria {
+    constructor() {
+        this.items = [];
     }
     save(item) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let newId = this.productos.length + 1;
-                item.id = newId;
-                item.timestamp = Date.now();
-                console.log("PRODUCTOS 1", this.productos);
-                this.productos.push(item);
-                console.log("PRODUCTOS 2", this.productos);
-                return this.productos;
+                item.id = this.items.length + 1;
+                item.created_at = Date.now();
+                this.items.push(item);
+                return this.items;
             }
             catch (e) {
-                console.log(`Error al guardar el producto: ${e}`);
+                console.log(`Error al guardar el elemento: ${e}`);
             }
         });
     }
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let filter = this.productos.filter((i) => i.id == id);
-                return filter;
+                let filter = this.items.filter((i) => i.id == id);
+                return filter[0];
             }
             catch (e) {
                 console.log(`Error al obtener el elemento : ${e}`);
@@ -55,8 +40,7 @@ class Producto {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(this.productos);
-                return this.productos;
+                return this.items;
             }
             catch (e) {
                 console.log(`Error al obtener los datos : ${e}`);
@@ -66,8 +50,8 @@ class Producto {
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let filter = this.productos.filter((i) => i.id != id);
-                this.productos = filter;
+                let filter = this.items.filter((i) => i.id != id);
+                this.items = filter;
             }
             catch (e) {
                 console.log(`Error al borrar el elemento : ${e}`);
@@ -77,13 +61,10 @@ class Producto {
     update(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let index = this.productos.findIndex((x) => x.id == id);
+                let index = this.items.findIndex((x) => x.id == id);
                 if (index != -1) {
-                    let item = this.productos[index];
-                    item.precio = body.precio;
-                    item.nombre = body.nombre;
-                    this.productos[index] = item;
-                    return item;
+                    this.items[index] = body;
+                    return this.items[index];
                 }
                 else {
                     return {};
@@ -95,4 +76,4 @@ class Producto {
         });
     }
 }
-exports.default = Producto;
+exports.default = ContenedorMemoria;

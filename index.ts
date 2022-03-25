@@ -1,12 +1,11 @@
 import express from "express";
-import { productosRouter } from "./productos.routes";
-import { carritosRouter } from "./carrito.routes";
-import * as dotenv from "dotenv";
+import { productosRouter } from "./src/routes/productos.routes";
+import { carritosRouter } from "./src/routes/carrito.routes";
+import config from "./src/config/config";
+const { config: env } = config;
 var bodyParser = require("body-parser");
 
-dotenv.config({ path: __dirname+'/.env' });
-
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,6 +18,6 @@ app.get("/", (req, res) => {
 	res.send("Well done!");
 });
 
-app.listen(8080, () => {
-	console.log("The application is listening on port 8080!");
+app.listen(env.port, () => {
+	console.log(`The application is listening on port ${env.port}!`);
 });
